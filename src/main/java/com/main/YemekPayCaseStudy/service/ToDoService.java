@@ -55,16 +55,14 @@ public class ToDoService {
         return repository.findById(toDo.getID()).get();
     }
 
-    public ToDo updateToDo(ToDo toDo) {
-        toDo = repository.save(toDo);
-        repository.flush();
-        em.clear();
-        toDo = repository.findById(toDo.getID()).get();
-        toDo.setDESCRIPTION(toDo.getDESCRIPTION());
+    /*public ToDo updateToDo(Integer id) {
+        ToDo toDo = repository.findById(id).get();
         toDo.setTITLE(toDo.getTITLE());
+        toDo.setDESCRIPTION(toDo.getDESCRIPTION());
         toDo.setCOMPLETED(toDo.getCOMPLETED());
         toDo.setDUE_DATE(toDo.getDUE_DATE());
+        repository.save(toDo);
 
-        return repository.save(toDo);
-    }
+        return repository.findById(id).get();
+    }*/
 }
