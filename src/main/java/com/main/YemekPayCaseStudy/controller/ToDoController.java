@@ -39,10 +39,9 @@ public class ToDoController {
         return ResponseEntity.status(HttpStatus.OK).body("Silindi");
     }
 
-  /*  @PutMapping(path = "todo/{id}")
-    public ToDo updateToDo(@PathVariable(name = "id") Integer id, ToDo toDo) {
+    @PutMapping(path = "todo/{id}")
+    public ResponseEntity<ToDo> updateToDo(@PathVariable(name = "id") Integer id,@RequestBody ToDo toDo) {
         // localhost:9090/api/todo/1
-        service.updateToDo(id);
-        return toDo;
-    }*/
+        return service.updateToDo(id, toDo);
+    }
 }

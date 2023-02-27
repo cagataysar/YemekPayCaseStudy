@@ -12,15 +12,14 @@ import org.hibernate.service.spi.SessionFactoryServiceInitiator;
 import org.springframework.cglib.proxy.Factory;
 import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -55,14 +54,20 @@ public class ToDoService {
         return repository.findById(toDo.getID()).get();
     }
 
-    /*public ToDo updateToDo(Integer id) {
-        ToDo toDo = repository.findById(id).get();
-        toDo.setTITLE(toDo.getTITLE());
-        toDo.setDESCRIPTION(toDo.getDESCRIPTION());
-        toDo.setCOMPLETED(toDo.getCOMPLETED());
-        toDo.setDUE_DATE(toDo.getDUE_DATE());
-        repository.save(toDo);
+    public ResponseEntity<ToDo> updateToDo(Integer id, ToDo toDo) {
+        Optional<ToDo> toDo1 = repository.findById(id);
 
-        return repository.findById(id).get();
-    }*/
+        if ( toDo1.isPresent() ) {
+            ToDo td = toDo1.get();
+            td.setTITLE(toDo.getTITLE());
+            td.setDESCRIPTION(toDo.getDESCRIPTION());
+            td.setDUE_DATE(toDo.getDUE_DATE());
+            td.setCOMPLETED(toDo.getCOMPLETED());
+
+            return new ResponseEntity<>(repository.save(td),HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
+    }
 }
